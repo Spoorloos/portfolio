@@ -1,0 +1,50 @@
+---
+import { Binary, Menu } from "@lucide/astro";
+import NavButton from "./NavButton.astro";
+
+const navLinks = {
+    "About": "/#about",
+    "Projects": "/#projects",
+    "Skills": "/#skills",
+    "Contact": "/#contact",
+}
+---
+
+<header class="sticky top-0 flex items-center justify-between gap-4 p-4 backdrop-blur-3xl bg-black/25">
+    <h1 class="text-xl font-bold">
+        <a class="flex items-center gap-2 transition-colors hocus:text-gray-300 text-shadow-sm text-shadow-gray-700" href="/">
+            <Binary class="size-7"/>
+            Mick's Portfolio
+        </a>
+    </h1>
+    <nav class="hidden gap-4 sm:flex">
+        {Object.entries(navLinks).map(([ name, path ]) => (
+            <NavButton href={path}>{name}</NavButton>
+        ))}
+    </nav>
+    <button class="block cursor-pointer sm:hidden" id="menu-btn">
+        <Menu class="size-7"/>
+    </button>
+</header>
+
+<dialog class="backdrop:backdrop-blur-sm" id="menu-modal">
+    <nav class="fixed bottom-0 left-0 right-0 flex justify-center gap-4 p-4 text-white bg-neutral-800 rounded-t-3xl">
+        {Object.entries(navLinks).map(([ name, path ]) => (
+            <NavButton href={path}>{name}</NavButton>
+        ))}
+    </nav>
+</dialog>
+
+<script>
+    const menuBtn = document.querySelector<HTMLButtonElement>("#menu-btn")!;
+    const menuModal = document.querySelector<HTMLDialogElement>("#menu-modal")!;
+
+    menuBtn.addEventListener("click", () => {
+        menuModal.showModal();
+        menuModal.focus();
+    });
+
+    menuModal.addEventListener("click", () => {
+        menuModal.close();
+    });
+</script>
